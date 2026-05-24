@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Announcements</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f4f4;
+            padding:30px;
+        }
+
+        .container{
+            width:80%;
+            margin:auto;
+        }
+
+        .form-box{
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            margin-bottom:30px;
+        }
+
+        input, textarea{
+            width:100%;
+            padding:12px;
+            margin-top:10px;
+            margin-bottom:20px;
+        }
+
+        button{
+            padding:15px 30px;
+            background:#1e3a8a;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        .announcement-card{
+            background:white;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:10px;
+        }
+
+        .date{
+            color:gray;
+            font-size:14px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>{{ group.group_name }} Announcements</h1>
+
+        <div class="form-box">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <input type="text" name="title" placeholder="Announcement Title">
+
+                <textarea name="message" placeholder="Write announcement here"></textarea>
+
+                <button type="submit">Post Announcement</button>
+
+            </form>
+
+        </div>
+
+        {% for announcement in announcements %}
+
+        <div class="announcement-card">
+
+            <h2>{{ announcement.title }}</h2>
+
+            <p>{{ announcement.message }}</p>
+
+            <p class="date">
+                {{ announcement.created_at }}
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</body>
+</html>

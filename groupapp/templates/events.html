@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events Calendar</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f4f4;
+            padding:30px;
+        }
+
+        .container{
+            max-width:1000px;
+            margin:auto;
+        }
+
+        .card{
+            background:white;
+            padding:20px;
+            margin-top:20px;
+            border-radius:10px;
+            box-shadow:0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        input, textarea{
+            width:100%;
+            padding:12px;
+            margin-top:10px;
+            border:1px solid #ccc;
+            border-radius:5px;
+        }
+
+        button{
+            margin-top:15px;
+            padding:12px 20px;
+            border:none;
+            background:#1e3a8a;
+            color:white;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        h2{
+            color:#1e3a8a;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1>📅 Events Calendar</h1>
+
+    <div class="card">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <input type="text" name="title" placeholder="Event Title" required>
+
+            <textarea name="description" placeholder="Event Description" required></textarea>
+
+            <input type="date" name="event_date" required>
+
+            <input type="time" name="event_time" required>
+
+            <input type="text" name="location" placeholder="Event Location" required>
+
+            <button type="submit">Add Event</button>
+
+        </form>
+
+    </div>
+
+    {% for event in events %}
+
+    <div class="card">
+
+        <h2>{{ event.title }}</h2>
+
+        <p>{{ event.description }}</p>
+
+        <p><strong>Date:</strong> {{ event.event_date }}</p>
+
+        <p><strong>Time:</strong> {{ event.event_time }}</p>
+
+        <p><strong>Location:</strong> {{ event.location }}</p>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

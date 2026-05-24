@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Documents</title>
+
+    <style>
+        body{font-family:Arial;background:#f4f4f4;padding:30px;}
+        .container{max-width:900px;margin:auto;}
+        .card{background:white;padding:20px;margin-top:20px;border-radius:10px;}
+        input,textarea{width:100%;padding:10px;margin-top:10px;}
+        button{padding:10px;background:#1e3a8a;color:white;border:none;margin-top:10px;}
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>📂 Document Center</h1>
+
+    <div class="card">
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <input type="text" name="title" placeholder="Document Title">
+            <textarea name="description" placeholder="Description"></textarea>
+            <input type="file" name="file">
+
+            <button type="submit">Upload Document</button>
+        </form>
+
+    </div>
+
+    {% for doc in documents %}
+
+    <div class="card">
+        <h3>{{ doc.title }}</h3>
+        <p>{{ doc.description }}</p>
+        <a href="{{ doc.file.url }}" download>⬇ Download</a>
+        <p>Uploaded: {{ doc.created_at }}</p>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

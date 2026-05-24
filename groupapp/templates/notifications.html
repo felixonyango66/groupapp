@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f4f4;
+            padding:30px;
+        }
+
+        .container{
+            max-width:900px;
+            margin:auto;
+        }
+
+        .card{
+            background:white;
+            padding:20px;
+            margin-top:20px;
+            border-radius:10px;
+            box-shadow:0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        h1{
+            color:#1e3a8a;
+        }
+
+        .time{
+            color:gray;
+            margin-top:10px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🔔 Notifications</h1>
+
+    {% for notification in notifications %}
+
+    <div class="card">
+
+        <h3>{{ notification.message }}</h3>
+
+        <p class="time">
+            {{ notification.created_at }}
+        </p>
+
+    </div>
+
+    {% empty %}
+
+    <div class="card">
+        <p>No notifications available.</p>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

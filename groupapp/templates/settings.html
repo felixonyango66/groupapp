@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Settings</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f4f4;
+            padding:30px;
+        }
+
+        .container{
+            width:70%;
+            margin:auto;
+        }
+
+        .form-box{
+            background:white;
+            padding:30px;
+            border-radius:10px;
+        }
+
+        input, textarea{
+            width:100%;
+            padding:12px;
+            margin-top:10px;
+            margin-bottom:20px;
+        }
+
+        button{
+            padding:15px 30px;
+            background:#1e3a8a;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Group Settings</h1>
+
+    <div class="form-box">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <input type="email" name="email" value="{{ group.email }}" placeholder="Email">
+
+            <input type="text" name="phone" value="{{ group.phone }}" placeholder="Phone">
+
+            <input type="text" name="location" value="{{ group.location }}" placeholder="Location">
+
+            <textarea name="description">{{ group.description }}</textarea>
+
+            <button type="submit">Update Settings</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

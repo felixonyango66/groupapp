@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Missions</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f4f4;
+            padding:30px;
+        }
+
+        .container{
+            width:80%;
+            margin:auto;
+        }
+
+        .form-box{
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            margin-bottom:30px;
+        }
+
+        input, textarea{
+            width:100%;
+            padding:12px;
+            margin-top:10px;
+            margin-bottom:20px;
+        }
+
+        button{
+            padding:15px 30px;
+            background:#1e3a8a;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        .mission-card{
+            background:white;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:10px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1>{{ group.group_name }} Missions</h1>
+
+    <div class="form-box">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <input type="text" name="title" placeholder="Mission Title">
+
+            <textarea name="description" placeholder="Mission Description"></textarea>
+
+            <button type="submit">Save Mission</button>
+
+        </form>
+
+    </div>
+
+    {% for mission in missions %}
+
+    <div class="mission-card">
+
+        <h2>{{ mission.title }}</h2>
+
+        <p>{{ mission.description }}</p>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Training Platform</title>
+
+    <style>
+        body{
+            font-family:Arial;
+            background:#f4f4f4;
+            padding:30px;
+        }
+
+        .container{
+            width:85%;
+            margin:auto;
+        }
+
+        .form-box{
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            margin-bottom:30px;
+        }
+
+        input, textarea{
+            width:100%;
+            padding:12px;
+            margin-top:10px;
+            margin-bottom:20px;
+        }
+
+        button{
+            padding:15px 30px;
+            background:#1e3a8a;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        .training-card{
+            background:white;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:10px;
+        }
+
+        .join-btn{
+            display:inline-block;
+            margin-top:10px;
+            padding:10px 20px;
+            background:green;
+            color:white;
+            text-decoration:none;
+            border-radius:5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>{{ group.group_name }} Training Platform</h1>
+
+    <div class="form-box">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <input type="text" name="title" placeholder="Training Title">
+
+            <textarea name="description" placeholder="Training Description"></textarea>
+
+            <input type="date" name="date">
+
+            <input type="url" name="meeting_link" placeholder="Meeting Link (Google Meet / Zoom)">
+
+            <button type="submit">Create Training</button>
+
+        </form>
+
+    </div>
+
+    {% for training in trainings %}
+
+    <div class="training-card">
+
+        <h2>{{ training.title }}</h2>
+
+        <p>{{ training.description }}</p>
+
+        <p><b>Date:</b> {{ training.date }}</p>
+
+        {% if training.meeting_link %}
+            <a href="{{ training.meeting_link }}" target="_blank" class="join-btn">
+                Join Training
+            </a>
+        {% endif %}
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

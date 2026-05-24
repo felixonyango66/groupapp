@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedbacks</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f4f4;
+            padding:30px;
+        }
+
+        .container{
+            width:80%;
+            margin:auto;
+        }
+
+        .form-box{
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            margin-bottom:30px;
+        }
+
+        input, textarea{
+            width:100%;
+            padding:12px;
+            margin-top:10px;
+            margin-bottom:20px;
+        }
+
+        button{
+            padding:15px 30px;
+            background:#1e3a8a;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        .feedback-card{
+            background:white;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:10px;
+        }
+
+        .name{
+            font-weight:bold;
+            color:#1e3a8a;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1>{{ group.group_name }} Feedbacks</h1>
+
+    <div class="form-box">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <input type="text" name="full_name" placeholder="Your Name">
+
+            <textarea name="message" placeholder="Write your feedback"></textarea>
+
+            <button type="submit">Send Feedback</button>
+
+        </form>
+
+    </div>
+
+    {% for feedback in feedbacks %}
+
+    <div class="feedback-card">
+
+        <p class="name">{{ feedback.full_name }}</p>
+
+        <p>{{ feedback.message }}</p>
+
+        <small>{{ feedback.created_at }}</small>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

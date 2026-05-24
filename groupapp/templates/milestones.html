@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Milestones</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f4f4;
+            padding:30px;
+        }
+
+        .container{
+            width:80%;
+            margin:auto;
+        }
+
+        .form-box{
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            margin-bottom:30px;
+        }
+
+        input, textarea{
+            width:100%;
+            padding:12px;
+            margin-top:10px;
+            margin-bottom:20px;
+        }
+
+        button{
+            padding:15px 30px;
+            background:#1e3a8a;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        .milestone-card{
+            background:white;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:10px;
+        }
+
+        h1{
+            margin-bottom:20px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>{{ group.group_name }} Milestones</h1>
+
+        <div class="form-box">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <input type="text" name="title" placeholder="Milestone Title">
+
+                <textarea name="description" placeholder="Description"></textarea>
+
+                <input type="date" name="date">
+
+                <button type="submit">Add Milestone</button>
+
+            </form>
+
+        </div>
+
+        {% for milestone in milestones %}
+
+        <div class="milestone-card">
+
+            <h2>{{ milestone.title }}</h2>
+
+            <p>{{ milestone.description }}</p>
+
+            <small>{{ milestone.date }}</small>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</body>
+</html>

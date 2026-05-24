@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Management System</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            background:#f4f4f4;
+        }
+
+        nav{
+            background:#1e3a8a;
+            color:white;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:15px 50px;
+        }
+
+        nav ul{
+            display:flex;
+            list-style:none;
+            gap:20px;
+        }
+
+        nav a{
+            color:white;
+            text-decoration:none;
+        }
+
+        .hero{
+            height:90vh;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+            padding:20px;
+        }
+
+        .hero h1{
+            font-size:50px;
+            color:#1e3a8a;
+            margin-bottom:20px;
+        }
+
+        .hero p{
+            font-size:20px;
+            max-width:700px;
+            margin-bottom:30px;
+        }
+
+        .btn{
+            padding:15px 30px;
+            background:#1e3a8a;
+            color:white;
+            text-decoration:none;
+            border-radius:8px;
+        }
+
+        .btn:hover{
+            background:#172554;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <nav>
+
+        <h2>GroupApp</h2>
+
+        <ul>
+            <li><a href="">Home</a></li>
+            <li><a href="">About</a></li>
+            <li><a href="/register-group/"></a>Register Group</a></li>
+            <li><a href="/login/"">Login</a></li>
+        </ul>
+
+    </nav>
+
+    <section class="hero">
+
+        <h1>Welcome to Group Management System</h1>
+
+        <p>
+            A smart platform for managing organizations, members,
+            milestones, trainings, announcements, and funding records.
+        </p>
+
+        <a href="/register-group/"><class="btn">Get Started</a>
+
+    </section>
+
+</body>
+</html>

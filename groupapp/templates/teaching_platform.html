@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teaching Platform</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f4f4;
+            padding:30px;
+        }
+
+        .container{
+            width:85%;
+            margin:auto;
+        }
+
+        .form-box{
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            margin-bottom:30px;
+        }
+
+        input, textarea{
+            width:100%;
+            padding:12px;
+            margin-top:10px;
+            margin-bottom:20px;
+        }
+
+        button{
+            padding:15px 30px;
+            background:#1e3a8a;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        .teaching-card{
+            background:white;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:10px;
+        }
+
+        .download-btn{
+            display:inline-block;
+            margin-top:15px;
+            padding:10px 20px;
+            background:#1e3a8a;
+            color:white;
+            text-decoration:none;
+            border-radius:5px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>{{ group.group_name }} Teaching Platform</h1>
+
+        <div class="form-box">
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                <input type="text" name="title" placeholder="Teaching Title">
+
+                <textarea name="content" placeholder="Teaching Content"></textarea>
+
+                <input type="file" name="file">
+
+                <button type="submit">Upload Teaching</button>
+
+            </form>
+
+        </div>
+
+        {% for teaching in teachings %}
+
+        <div class="teaching-card">
+
+            <h2>{{ teaching.title }}</h2>
+
+            <p>{{ teaching.content }}</p>
+
+            {% if teaching.file %}
+                <a href="{{ teaching.file.url }}" class="download-btn">
+                    Download File
+                </a>
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</body>
+</html>

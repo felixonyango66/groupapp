@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Funding Records</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f4f4;
+            padding:30px;
+        }
+
+        .container{
+            width:80%;
+            margin:auto;
+        }
+
+        .form-box, .record-box{
+            background:white;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:10px;
+        }
+
+        input, textarea{
+            width:100%;
+            padding:10px;
+            margin-top:10px;
+            margin-bottom:10px;
+        }
+
+        button{
+            padding:10px 20px;
+            background:#1e3a8a;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+        .record{
+            border-bottom:1px solid #ddd;
+            padding:10px 0;
+        }
+
+        .amount{
+            color:green;
+            font-weight:bold;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1>{{ group.group_name }} Funding Records</h1>
+
+    <!-- FORM -->
+    <div class="form-box">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <input type="text" name="source" placeholder="Funding Source" required>
+
+            <input type="number" name="amount" placeholder="Amount" required>
+
+            <input type="date" name="date" required>
+
+            <textarea name="purpose" placeholder="Purpose of funding"></textarea>
+
+            <button type="submit">Add Record</button>
+
+        </form>
+
+    </div>
+
+    <!-- RECORDS -->
+    <div class="record-box">
+
+        <h2>All Funding Records</h2>
+
+        {% for record in records %}
+
+        <div class="record">
+
+            <p><strong>Source:</strong> {{ record.source }}</p>
+
+            <p class="amount">Ksh {{ record.amount }}</p>
+
+            <p><strong>Purpose:</strong> {{ record.purpose }}</p>
+
+            <p><small>{{ record.date }}</small></p>
+
+        </div>
+
+        {% empty %}
+
+        <p>No funding records yet.</p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
