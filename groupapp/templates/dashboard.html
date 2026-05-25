@@ -1,12 +1,16 @@
-``html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Dashboard</title>
+    <title>GroupApp Dashboard</title>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
 
@@ -14,29 +18,54 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:Arial, sans-serif;
+            font-family:'Poppins', sans-serif;
         }
 
         body{
             display:flex;
-            background:#f4f6f9;
+            background:#f1f5f9;
+            color:#1e293b;
         }
 
         /* SIDEBAR */
 
         .sidebar{
-            width:250px;
+            width:280px;
             height:100vh;
-            background:#1e3a8a;
-            color:white;
+            background:linear-gradient(to bottom,#0f172a,#1e293b);
             position:fixed;
+            left:0;
+            top:0;
             overflow-y:auto;
-            padding-top:20px;
+            color:white;
+            padding:25px 0;
+            transition:0.3s;
+            z-index:1000;
         }
 
-        .sidebar h2{
-            text-align:center;
-            margin-bottom:30px;
+        .logo{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:12px;
+            margin-bottom:40px;
+        }
+
+        .logo-circle{
+            width:55px;
+            height:55px;
+            border-radius:50%;
+            background:linear-gradient(135deg,#2563eb,#14b8a6);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:24px;
+            font-weight:bold;
+            color:white;
+        }
+
+        .logo h2{
+            font-size:28px;
         }
 
         .sidebar ul{
@@ -44,120 +73,317 @@
         }
 
         .sidebar ul li{
-            padding:15px 20px;
-            border-bottom:1px solid rgba(255,255,255,0.1);
-        }
-
-        .sidebar ul li:hover{
-            background:#172554;
+            margin:5px 15px;
         }
 
         .sidebar ul li a{
-            color:white;
+            display:flex;
+            align-items:center;
+            gap:12px;
+            color:#e2e8f0;
             text-decoration:none;
-            display:block;
+            padding:15px 18px;
+            border-radius:12px;
+            transition:0.3s;
+            font-size:15px;
         }
 
-        /* MAIN CONTENT */
+        .sidebar ul li a:hover{
+            background:#2563eb;
+            color:white;
+            transform:translateX(5px);
+        }
+
+        /* MAIN */
 
         .main-content{
-            margin-left:250px;
+            margin-left:280px;
             width:100%;
+            min-height:100vh;
         }
 
         /* TOPBAR */
 
         .topbar{
             background:white;
-            padding:20px;
+            padding:20px 35px;
             display:flex;
             justify-content:space-between;
             align-items:center;
-            box-shadow:0 2px 5px rgba(0,0,0,0.1);
+            box-shadow:0 2px 12px rgba(0,0,0,0.06);
+            position:sticky;
+            top:0;
+            z-index:100;
+        }
+
+        .top-left{
+            display:flex;
+            align-items:center;
+            gap:15px;
         }
 
         .menu-btn{
             display:none;
-            background:#1e3a8a;
+            background:#2563eb;
             color:white;
             border:none;
             padding:10px 15px;
-            font-size:20px;
-            border-radius:5px;
+            border-radius:8px;
             cursor:pointer;
+            font-size:20px;
         }
 
+        .welcome h2{
+            color:#0f172a;
+            font-size:28px;
+        }
+
+        .welcome p{
+            color:#64748b;
+            font-size:14px;
+        }
+
+        .profile{
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+
+        .profile-circle{
+            width:45px;
+            height:45px;
+            border-radius:50%;
+            background:#2563eb;
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:bold;
+        }
+
+        /* CONTENT */
+
         .content{
-            padding:30px;
+            padding:35px;
+        }
+
+        .dashboard-header{
+            margin-bottom:30px;
+        }
+
+        .dashboard-header h1{
+            font-size:36px;
+            color:#0f172a;
+            margin-bottom:8px;
+        }
+
+        .dashboard-header p{
+            color:#64748b;
         }
 
         /* CARDS */
 
         .cards{
             display:grid;
-            grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
-            gap:20px;
-            margin-bottom:30px;
+            grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+            gap:25px;
+            margin-bottom:35px;
         }
 
         .card{
             background:white;
-            padding:25px;
-            border-radius:12px;
-            box-shadow:0 2px 8px rgba(0,0,0,0.08);
+            border-radius:22px;
+            padding:28px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.06);
+            transition:0.3s;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .card:hover{
+            transform:translateY(-8px);
+        }
+
+        .card::before{
+            content:'';
+            position:absolute;
+            width:120px;
+            height:120px;
+            background:rgba(37,99,235,0.08);
+            border-radius:50%;
+            top:-30px;
+            right:-30px;
+        }
+
+        .card-top{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:20px;
+        }
+
+        .card-icon{
+            width:60px;
+            height:60px;
+            border-radius:16px;
+            background:#dbeafe;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:28px;
         }
 
         .card h3{
-            margin-bottom:15px;
-            color:#1e3a8a;
+            color:#64748b;
+            font-size:15px;
+            margin-bottom:10px;
         }
 
         .number{
-            font-size:30px;
-            font-weight:bold;
-            color:#111827;
+            font-size:36px;
+            font-weight:700;
+            color:#0f172a;
         }
 
-        /* CHART AREA */
+        /* GRID */
+
+        .dashboard-grid{
+            display:grid;
+            grid-template-columns:2fr 1fr;
+            gap:30px;
+            margin-bottom:35px;
+        }
+
+        /* CHART */
 
         .chart-container{
             background:white;
-            padding:25px;
-            border-radius:12px;
-            box-shadow:0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom:30px;
+            border-radius:22px;
+            padding:30px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.06);
+        }
+
+        .section-title{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:25px;
+        }
+
+        .section-title h2{
+            color:#0f172a;
+            font-size:24px;
         }
 
         canvas{
             width:100% !important;
-            max-height:400px;
+            max-height:380px;
         }
 
-        /* QUICK INFO */
+        /* SUMMARY */
 
-        .info-box{
+        .summary-box{
             background:white;
-            padding:25px;
-            border-radius:12px;
-            box-shadow:0 2px 8px rgba(0,0,0,0.08);
+            border-radius:22px;
+            padding:30px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.06);
         }
 
-        .info-box h2{
-            margin-bottom:15px;
-            color:#1e3a8a;
+        .summary-box h2{
+            margin-bottom:25px;
+            color:#0f172a;
         }
 
-        .info-box p{
+        .summary-item{
+            margin-bottom:20px;
+            padding-bottom:15px;
+            border-bottom:1px solid #e2e8f0;
+        }
+
+        .summary-item h4{
+            color:#64748b;
+            margin-bottom:8px;
+            font-size:14px;
+        }
+
+        .summary-item p{
+            font-size:18px;
+            font-weight:600;
+            color:#0f172a;
+        }
+
+        /* AI BOX */
+
+        .ai-box{
+            background:white;
+            padding:30px;
+            border-radius:22px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.06);
+        }
+
+        .ai-box h2{
             margin-bottom:10px;
-            line-height:1.6;
+            color:#0f172a;
+        }
+
+        .ai-box p{
+            color:#64748b;
+            margin-bottom:20px;
+        }
+
+        .ai-input{
+            display:flex;
+            gap:15px;
+            flex-wrap:wrap;
+        }
+
+        .ai-input input{
+            flex:1;
+            padding:15px;
+            border:1px solid #cbd5e1;
+            border-radius:12px;
+            outline:none;
+            font-size:15px;
+        }
+
+        .ai-input button{
+            padding:15px 28px;
+            background:#2563eb;
+            color:white;
+            border:none;
+            border-radius:12px;
+            cursor:pointer;
+            font-weight:600;
+            transition:0.3s;
+        }
+
+        .ai-input button:hover{
+            background:#1d4ed8;
+        }
+
+        #reply{
+            margin-top:20px;
+            background:#f8fafc;
+            padding:20px;
+            border-radius:12px;
+            min-height:60px;
+            color:#334155;
+        }
+
+        /* MOBILE */
+
+        @media(max-width:1000px){
+
+            .dashboard-grid{
+                grid-template-columns:1fr;
+            }
+
         }
 
         @media(max-width:768px){
 
             .sidebar{
-                left:-250px;
-                transition:0.3s;
-                z-index:1000;
+                left:-280px;
             }
 
             .sidebar.active{
@@ -168,26 +394,24 @@
                 margin-left:0;
             }
 
-            .topbar{
-                padding:15px;
-            }
-
             .menu-btn{
                 display:block;
             }
 
-            .cards{
-                grid-template-columns:1fr;
+            .topbar{
+                padding:18px;
             }
 
             .content{
-                padding:15px;
+                padding:20px;
             }
 
-            .chart-container,
-            .info-box,
-            .card{
-                padding:20px;
+            .dashboard-header h1{
+                font-size:28px;
+            }
+
+            .cards{
+                grid-template-columns:1fr;
             }
 
         }
@@ -197,194 +421,358 @@
 </head>
 <body>
 
-<!-- SIDEBAR -->
+    <!-- SIDEBAR -->
 
-<div class="sidebar">
+    <div class="sidebar">
 
-    <h2>GroupApp</h2>
+        <div class="logo">
 
-    <ul>
+            <div class="logo-circle">G</div>
 
-        <li><a href="/dashboard/">Dashboard</a></li>
+            <h2>GroupApp</h2>
 
-        {% if role == 'leader' %}
-        <li><a href="/members/">Members</a></li>
-        <li><a href="/funding-records/">Funding Records</a></li>
-        {% endif %}
+        </div>
 
-        <li><a href="/milestones/">Milestones</a></li>
-        <li><a href="/group-photos/">Group Photos</a></li>
-        <li><a href="/announcements/">Announcements</a></li>
-        <li><a href="/teaching-platform/">Teaching Platform</a></li>
-        <li><a href="/training-platform/">Training Platform</a></li>
-        <li><a href="/missions/">Missions</a></li>
-        <li><a href="/visions/">Visions</a></li>
-        <li><a href="/feedback/">Feedbacks</a></li>
-        <li><a href="/settings/">Settings</a></li>
-        <li><a href="/documents/">Documents</a></li>
-        <li><a href="/events/">Events Calendar</a></li>
-        <li>
-            <a href="/notifications/">
-                Notifications ({{ notification_count }})
-            </a>
-        </li>
-        <li><a href="/logout/">Logout</a></li>
+        <ul>
 
-    </ul>
+            <li><a href="/dashboard/">🏠 Dashboard</a></li>
 
-</div>
+            {% if role == 'leader' %}
+            <li><a href="/members/">👥 Members</a></li>
+            <li><a href="/funding-records/">💰 Funding Records</a></li>
+            {% endif %}
 
-<!-- MAIN CONTENT -->
+            <li><a href="/milestones/">🏆 Milestones</a></li>
+            <li><a href="/group-photos/">📸 Group Photos</a></li>
+            <li><a href="/announcements/">📢 Announcements</a></li>
+            <li><a href="/teaching-platform/">📚 Teaching Platform</a></li>
+            <li><a href="/training-platform/">🎓 Training Platform</a></li>
+            <li><a href="/missions/">🎯 Missions</a></li>
+            <li><a href="/visions/">🌟 Visions</a></li>
+            <li><a href="/feedback/">📝 Feedbacks</a></li>
+            <li><a href="/settings/">⚙️ Settings</a></li>
+            <li><a href="/documents/">📂 Documents</a></li>
+            <li><a href="/events/">📅 Events Calendar</a></li>
 
-<div class="main-content">
+            <li>
+                <a href="/notifications/">
+                    🔔 Notifications ({{ notification_count }})
+                </a>
+            </li>
 
-    <!-- TOPBAR -->
+            <li><a href="/logout/">🚪 Logout</a></li>
 
-    <div class="topbar">
-        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-        <h2>Welcome {{ group.group_name }}</h2>
-
-        <p>{{ group.location }}</p>
+        </ul>
 
     </div>
 
-    <!-- CONTENT -->
+    <!-- MAIN -->
 
-    <div class="content">
+    <div class="main-content">
 
-        <h1 style="margin-bottom:25px;">Dashboard Analytics</h1>
+        <!-- TOPBAR -->
 
-        <!-- ANALYTICS CARDS -->
+        <div class="topbar">
 
-        <div class="cards">
+            <div class="top-left">
 
-            <div class="card">
-                <h3>Total Members</h3>
-                <p class="number">{{ members_count }}</p>
+                <button class="menu-btn" onclick="toggleSidebar()">
+                    ☰
+                </button>
+
+                <div class="welcome">
+
+                    <h2>
+                        Welcome {{ group.group_name }}
+                    </h2>
+
+                    <p>
+                        Empowering Youth & Women Organizations
+                    </p>
+
+                </div>
+
             </div>
 
-            <div class="card">
-                <h3>Total Feedbacks</h3>
-                <p class="number">{{ feedback_count }}</p>
-            </div>
+            <div class="profile">
 
-            <div class="card">
-                <h3>Milestones</h3>
-                <p class="number">{{ milestones_count }}</p>
-            </div>
+                <div class="profile-circle">
+                    G
+                </div>
 
-            <div class="card">
-                <h3>Total Funding</h3>
-                <p class="number">Ksh {{ funding_total }}</p>
+                <div>
+                    <strong>{{ group.group_name }}</strong>
+                    <p style="font-size:13px;color:#64748b;">
+                        {{ group.location }}
+                    </p>
+                </div>
+
             </div>
 
         </div>
 
-        <!-- FUNDING GRAPH -->
+        <!-- CONTENT -->
 
-        <div class="chart-container">
+        <div class="content">
 
-            <h2 style="margin-bottom:20px;">Funding Growth Chart</h2>
+            <div class="dashboard-header">
 
-            <canvas id="fundingChart"></canvas>
+                <h1>Dashboard Analytics</h1>
+
+                <p>
+                    Monitor members, funding, milestones,
+                    communication, and organizational performance.
+                </p>
+
+            </div>
+
+            <!-- CARDS -->
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <div class="card-top">
+
+                        <div>
+                            <h3>Total Members</h3>
+                            <p class="number">{{ members_count }}</p>
+                        </div>
+
+                        <div class="card-icon">
+                            👥
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-top">
+
+                        <div>
+                            <h3>Total Feedbacks</h3>
+                            <p class="number">{{ feedback_count }}</p>
+                        </div>
+
+                        <div class="card-icon">
+                            📝
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-top">
+
+                        <div>
+                            <h3>Milestones</h3>
+                            <p class="number">{{ milestones_count }}</p>
+                        </div>
+
+                        <div class="card-icon">
+                            🏆
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-top">
+
+                        <div>
+                            <h3>Total Funding</h3>
+                            <p class="number">
+                                Ksh {{ funding_total }}
+                            </p>
+                        </div>
+
+                        <div class="card-icon">
+                            💰
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- GRID -->
+
+            <div class="dashboard-grid">
+
+                <!-- CHART -->
+
+                <div class="chart-container">
+
+                    <div class="section-title">
+
+                        <h2>Funding Growth Analytics</h2>
+
+                    </div>
+
+                    <canvas id="fundingChart"></canvas>
+
+                </div>
+
+                <!-- SUMMARY -->
+
+                <div class="summary-box">
+
+                    <h2>Organization Summary</h2>
+
+                    <div class="summary-item">
+                        <h4>Organization Name</h4>
+                        <p>{{ group.group_name }}</p>
+                    </div>
+
+                    <div class="summary-item">
+                        <h4>Location</h4>
+                        <p>{{ group.location }}</p>
+                    </div>
+
+                    <div class="summary-item">
+                        <h4>Total Members</h4>
+                        <p>{{ members_count }}</p>
+                    </div>
+
+                    <div class="summary-item">
+                        <h4>Total Funding</h4>
+                        <p>Ksh {{ funding_total }}</p>
+                    </div>
+
+                    <div class="summary-item">
+                        <h4>Milestones Achieved</h4>
+                        <p>{{ milestones_count }}</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- AI ASSISTANT -->
+
+            <div class="ai-box">
+
+                <h2>AI Assistant 🤖</h2>
+
+                <p>
+                    Ask questions about leadership, youth empowerment,
+                    project management, funding, and organization growth.
+                </p>
+
+                <div class="ai-input">
+
+                    <input type="text"
+                           id="msg"
+                           placeholder="Ask AI something...">
+
+                    <button onclick="askAI()">
+                        Ask AI
+                    </button>
+
+                </div>
+
+                <div id="reply"></div>
+
+            </div>
 
         </div>
-
-        <!-- INFO SECTION -->
-
-        <div class="info-box">
-
-            <h2>Organization Summary</h2>
-
-            <p><strong>Group:</strong> {{ group.group_name }}</p>
-            <p><strong>Location:</strong> {{ group.location }}</p>
-            <p><strong>Total Members:</strong> {{ members_count }}</p>
-            <p><strong>Total Funding:</strong> Ksh {{ funding_total }}</p>
-            <p><strong>Milestones Achieved:</strong> {{ milestones_count }}</p>
-
-        </div>
-        <div>
-            <h3>AI Assistant 🤖</h3>
-            <input type="text" id="msg">
-            <button onclick="askAI()">Ask</button>
-            <p id="reply"></p>
-        </div>
-
-
 
     </div>
 
-</div>
+    <!-- CHART -->
 
-<!-- CHART JS -->
- <canvas id="fundingChart"></canvas>
+    <script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        const ctx = document.getElementById('fundingChart');
 
-<script>
-const ctx = document.getElementById('fundingChart');
+        new Chart(ctx, {
 
-new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: {{ funding_labels|safe }},
-        datasets: [{
-            label: 'Funding Trends',
-            data: {{ funding_values|safe }},
-            borderWidth: 1
-        }]
-    }
-});
-</script>
-<script>
-function askAI(){
+            type: 'bar',
 
-    let msg = document.getElementById("msg").value;
+            data: {
 
-    fetch(`/ai/?message=${encodeURIComponent(msg)}`)
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById("reply").innerText = data.response;
-    })
-    .catch(error => {
-        document.getElementById("reply").innerText = "Error contacting AI";
-    });
-}
-</script>
-<script>
+                labels: {{ funding_labels|safe }},
 
-    const ctx = document.getElementById('fundingChart');
+                datasets: [{
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: {{ funding_labels|safe }},
-            datasets: [{
-                label: 'Funding Amount (Ksh)',
-                data: {{ funding_values|safe }},
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
+                    label: 'Funding Amount (Ksh)',
+
+                    data: {{ funding_values|safe }},
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true
+
+                    }
+
                 }
+
             }
+
+        });
+
+    </script>
+
+    <!-- AI -->
+
+    <script>
+
+        function askAI(){
+
+            let msg = document.getElementById("msg").value;
+
+            fetch(`/ai/?message=${encodeURIComponent(msg)}`)
+
+            .then(response => response.json())
+
+            .then(data => {
+
+                document.getElementById("reply").innerText = data.response;
+
+            })
+
+            .catch(error => {
+
+                document.getElementById("reply").innerText =
+                "Error contacting AI Assistant.";
+
+            });
+
         }
-    });
 
-</script>
-<script>
+    </script>
 
-function toggleSidebar(){
+    <!-- SIDEBAR -->
 
-    document.querySelector('.sidebar').classList.toggle('active');
+    <script>
 
-}
+        function toggleSidebar(){
 
-</script>
+            document.querySelector('.sidebar')
+            .classList.toggle('active');
+
+        }
+
+    </script>
 
 </body>
 </html>
