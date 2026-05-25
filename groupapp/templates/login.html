@@ -1,42 +1,168 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Login | GroupApp</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
 
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins', sans-serif;
+        }
+
         body{
-            background:#f4f4f4;
-            font-family:Arial;
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:linear-gradient(to right,#eff6ff,#ecfeff);
+            padding:20px;
         }
 
         .container{
-            width:35%;
-            margin:80px auto;
+            width:100%;
+            max-width:500px;
             background:white;
-            padding:30px;
-            border-radius:10px;
+            padding:45px;
+            border-radius:25px;
+            box-shadow:0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .logo{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:12px;
+            margin-bottom:25px;
+        }
+
+        .logo-circle{
+            width:55px;
+            height:55px;
+            border-radius:50%;
+            background:linear-gradient(135deg,#2563eb,#14b8a6);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            color:white;
+            font-size:24px;
+            font-weight:bold;
+        }
+
+        .logo h2{
+            color:#0f172a;
+            font-size:30px;
+        }
+
+        .title{
+            text-align:center;
+            margin-bottom:35px;
+        }
+
+        .title h1{
+            font-size:36px;
+            color:#0f172a;
+            margin-bottom:10px;
+        }
+
+        .title p{
+            color:#64748b;
+            font-size:15px;
+        }
+
+        form{
+            margin-top:20px;
+        }
+
+        .input-group{
+            margin-bottom:22px;
+        }
+
+        label{
+            display:block;
+            margin-bottom:8px;
+            font-weight:500;
+            color:#334155;
         }
 
         input{
             width:100%;
-            padding:12px;
-            margin-top:10px;
-            margin-bottom:20px;
+            padding:15px;
+            border:1px solid #cbd5e1;
+            border-radius:12px;
+            outline:none;
+            font-size:15px;
+            background:#f8fafc;
+            transition:0.3s;
+        }
+
+        input:focus{
+            border-color:#2563eb;
+            background:white;
+            box-shadow:0 0 0 4px rgba(37,99,235,0.1);
         }
 
         button{
             width:100%;
-            padding:15px;
-            background:#1e3a8a;
+            padding:16px;
+            background:#2563eb;
             color:white;
             border:none;
+            border-radius:12px;
+            font-size:16px;
+            font-weight:600;
             cursor:pointer;
+            transition:0.3s;
+            box-shadow:0 4px 12px rgba(37,99,235,0.25);
+        }
+
+        button:hover{
+            background:#1d4ed8;
+            transform:translateY(-2px);
         }
 
         .error{
-            color:red;
+            background:#fee2e2;
+            color:#b91c1c;
+            padding:12px;
+            border-radius:10px;
             margin-bottom:20px;
+            text-align:center;
+            font-size:14px;
+        }
+
+        .footer-text{
+            text-align:center;
+            margin-top:25px;
+            color:#64748b;
+            font-size:14px;
+        }
+
+        .footer-text a{
+            color:#2563eb;
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        @media(max-width:600px){
+
+            .container{
+                padding:30px 22px;
+            }
+
+            .title h1{
+                font-size:28px;
+            }
+
         }
 
     </style>
@@ -46,23 +172,74 @@
 
     <div class="container">
 
-        <h1>Group Login</h1>
+        <div class="logo">
+
+            <div class="logo-circle">G</div>
+
+            <h2>GroupApp</h2>
+
+        </div>
+
+        <div class="title">
+
+            <h1>Welcome Back</h1>
+
+            <p>
+                Login to manage your youth or women organization,
+                members, milestones, projects, and communications.
+            </p>
+
+        </div>
 
         {% if error %}
-            <p class="error">{{ error }}</p>
+
+            <div class="error">
+                {{ error }}
+            </div>
+
         {% endif %}
 
         <form method="POST">
 
             {% csrf_token %}
 
-            <input type="text" name="group_name" placeholder="Group Name">
+            <div class="input-group">
 
-            <input type="password" name="password" placeholder="Password">
+                <label>Group Name</label>
 
-            <button type="submit">Login</button>
+                <input type="text"
+                       name="group_name"
+                       placeholder="Enter group name"
+                       required>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Password</label>
+
+                <input type="password"
+                       name="password"
+                       placeholder="Enter password"
+                       required>
+
+            </div>
+
+            <button type="submit">
+                Login
+            </button>
 
         </form>
+
+        <div class="footer-text">
+
+            Don’t have an account?
+
+            <a href="/register-group/">
+                Register Group
+            </a>
+
+        </div>
 
     </div>
 
