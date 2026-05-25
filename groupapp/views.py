@@ -392,8 +392,9 @@ def members(request):
         )
 
         # ✉️ EMAIL (WELCOME MESSAGE)
-        if email:
-            send_mail(
+        try:
+            if email:
+                send_mail(
                 subject="Welcome to the Group 🎉",
                 message=f"""
 Hello {full_name},
@@ -409,6 +410,9 @@ Welcome aboard!
                 recipient_list=[email],
                 fail_silently=True
             )
+        
+        except Exception as e:
+             print("EMAIL ERROR:", e)
 
         return redirect('members')
 
@@ -531,8 +535,9 @@ def funding_records(request):
         )
 
         # ✉️ EMAIL ALERT
-        if group.email:
-            send_mail(
+        try:
+            if group.email:
+                send_mail(
                 subject="Funding Update 💰",
                 message=f"""
 Hello {group.group_name},
@@ -550,6 +555,9 @@ Group Management System
                 recipient_list=[group.email],
                 fail_silently=True
             )
+        
+        except Exception as e:
+            print("EMAIL ERROR:", e)
 
         return redirect('funding_records')
 
@@ -672,14 +680,16 @@ def request_reset(request):
             reset = PasswordReset.objects.create(group=group)
 
             reset_link = f"http://127.0.0.1:8000/reset-password/{reset.token}/"
-
-            send_mail(
-                subject="Password Reset Request",
-                message=f"Click the link to reset your password: {reset_link}",
-                from_email="yourgmail@gmail.com",
-                recipient_list=[group.email],
-                fail_silently=True
-            )
+            try:
+                send_mail(
+                    subject="Password Reset Request",
+                    message=f"Click the link to reset your password: {reset_link}",
+                    from_email="yourgmail@gmail.com",
+                    recipient_list=[group.email],
+                    fail_silently=True
+                )
+            except Exception as e:
+                print("EMAIL ERROR:", e)
 
             return JsonResponse({"message": "Reset link sent to email"})
 
