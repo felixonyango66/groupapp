@@ -358,19 +358,34 @@ from django.core.mail import send_mail
 from .models import Notification, Member, Group
 
 
+from django.shortcuts import render, redirect, get_object_or_404
+from django.core.mail import send_mail
+
+from .models import Group, Member, Notification
+
+
 def members(request):
 
+    # CHECK LOGIN
     if 'group_id' not in request.session:
         return redirect('login_group')
 
+    # GET GROUP
     group = Group.objects.get(id=request.session['group_id'])
 
+    # GET USER ROLE FROM SESSION
+    role = request.session.get('role')
+
+    # ONLY LEADERS CAN ADD MEMBERS
     if request.method == 'POST':
+
+        if role != 'leader':
+            return redirect('members')
 
         full_name = request.POST['full_name']
         email = request.POST.get('email')
         phone = request.POST['phone']
-        role = request.POST.get('role', 'Member')
+        member_role = request.POST.get('role', 'Member')
         bio = request.POST.get('bio')
         profile_photo = request.FILES.get('profile_photo')
 
@@ -380,48 +395,98 @@ def members(request):
             full_name=full_name,
             email=email,
             phone=phone,
-            role=role,
+            role=member_role,
             bio=bio,
             profile_photo=profile_photo
         )
 
-        # 🔔 NOTIFICATION
+        # NOTIFICATION
         Notification.objects.create(
             group=group,
             message=f"New member added: {full_name}"
         )
 
-        # ✉️ EMAIL (WELCOME MESSAGE)
+        # EMAIL
         try:
+
             if email:
+
                 send_mail(
-                subject="Welcome to the Group 🎉",
-                message=f"""
+                    subject="Welcome to the Group 🎉",
+
+                    message=f"""
 Hello {full_name},
 
 You have been successfully added to {group.group_name}.
 
-Role: {role}
+Role: {member_role}
 Phone: {phone}
 
 Welcome aboard!
-                """,
-                from_email="yourgmail@gmail.com",
-                recipient_list=[email],
-                fail_silently=True
-            )
-        
+                    """,
+
+                    from_email="yourgmail@gmail.com",
+
+                    recipient_list=[email],
+
+                    fail_silently=True
+                )
+
         except Exception as e:
-             print("EMAIL ERROR:", e)
+
+            print("EMAIL ERROR:", e)
 
         return redirect('members')
 
-    members = Member.objects.filter(group=group).order_by('-joined_at')
+    # FETCH MEMBERS
+    members = Member.objects.filter(
+        group=group
+    ).order_by('-joined_at')
 
     return render(request, 'members.html', {
+
         'group': group,
-        'members': members
+        'members': members,
+        'role': role
+
     })
+
+
+# DELETE MEMBER
+def delete_member(request, member_id):
+
+    # CHECK LOGIN
+    if 'group_id' not in request.session:
+        return redirect('login_group')
+
+    # CHECK ROLE
+    role = request.session.get('role')
+
+    if role != 'leader':
+        return redirect('members')
+
+    # GET GROUP
+    group = Group.objects.get(id=request.session['group_id'])
+
+    # GET MEMBER
+    member = get_object_or_404(
+        Member,
+        id=member_id,
+        group=group
+    )
+
+    # DELETE MEMBER
+    member.delete()
+
+    # NOTIFICATION
+    Notification.objects.create(
+        group=group,
+        message=f"Member deleted: {member.full_name}"
+    )
+
+    return redirect('members')
+
+
 
 def visions(request):
 

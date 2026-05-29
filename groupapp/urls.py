@@ -27,4 +27,12 @@ urlpatterns = [
     path('reset-password/<uuid:token>/', views.reset_password, name='reset_password'),
     path('ai/', views.ai_assistant, name='ai_assistant'),
 
+    path(
+    'delete-member/<int:member_id>/',
+    views.delete_member,
+    name='delete_member'
+    ),
+
+
+
 ]   

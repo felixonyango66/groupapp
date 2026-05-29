@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,6 +46,15 @@
             color:white;
             border-radius:5px;
             cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            opacity:0.9;
+        }
+
+        .delete-btn{
+            background:red;
         }
 
         .members-grid{
@@ -81,19 +91,31 @@
 
     <h1>👥 Member Profiles</h1>
 
-    <!-- MEMBER FORM -->
+    <!-- ONLY LEADERS CAN ADD MEMBERS -->
+
+    {% if role == 'leader' %}
 
     <div class="form-card">
+
+        <h2>Add Member</h2>
 
         <form method="POST" enctype="multipart/form-data">
 
             {% csrf_token %}
 
-            <input type="text" name="full_name" placeholder="Full Name" required>
+            <input type="text"
+                   name="full_name"
+                   placeholder="Full Name"
+                   required>
 
-            <input type="email" name="email" placeholder="Email">
+            <input type="email"
+                   name="email"
+                   placeholder="Email">
 
-            <input type="text" name="phone" placeholder="Phone Number" required>
+            <input type="text"
+                   name="phone"
+                   placeholder="Phone Number"
+                   required>
 
             <select name="role">
 
@@ -107,15 +129,20 @@
 
             </select>
 
-            <textarea name="bio" placeholder="Member Bio/About"></textarea>
+            <textarea name="bio"
+                      placeholder="Member Bio/About"></textarea>
 
             <input type="file" name="profile_photo">
 
-            <button type="submit">Add Member</button>
+            <button type="submit">
+                Add Member
+            </button>
 
         </form>
 
     </div>
+
+    {% endif %}
 
     <!-- MEMBERS LIST -->
 
@@ -126,12 +153,15 @@
         <div class="member-card">
 
             {% if member.profile_photo %}
-                <img src="{{ member.profile_photo.url }}" class="member-photo">
+                <img src="{{ member.profile_photo.url }}"
+                     class="member-photo">
             {% endif %}
 
             <h2>{{ member.full_name }}</h2>
 
-            <p class="role">{{ member.role }}</p>
+            <p class="role">
+                {{ member.role }}
+            </p>
 
             <p>📧 {{ member.email }}</p>
 
@@ -147,6 +177,26 @@
                 🏆 Activity history coming soon
             </p>
 
+            <!-- ONLY LEADERS CAN DELETE -->
+
+            {% if role == 'leader' %}
+
+            <form method="POST"
+                  action="/delete-member/{{ member.id }}/">
+
+                {% csrf_token %}
+
+                <button type="submit"
+                        class="delete-btn">
+
+                    Delete Member
+
+                </button>
+
+            </form>
+
+            {% endif %}
+
         </div>
 
         {% endfor %}
@@ -157,3 +207,4 @@
 
 </body>
 </html>
+```
