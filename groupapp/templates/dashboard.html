@@ -432,6 +432,17 @@
 
             z-index:9999;
         }
+        @keyframes spin{
+
+            from{
+                transform: rotate(0deg);
+            }
+
+            to{
+                transform: rotate(360deg);
+            }
+
+        }
 
     </style>
 
@@ -703,8 +714,15 @@
         </div>
 
     </div>
+    <script>
 
-    <!-- CHART -->
+        <!-- CHART -->
+        window.addEventListener("load", function(){
+
+        document.getElementById("preloader").style.display = "none";
+
+    });
+    </script>
 
     <script>
 
